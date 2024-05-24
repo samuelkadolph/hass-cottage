@@ -1,0 +1,45 @@
+travel_arriving:
+  alias: Travel - Arriving
+  icon: mdi:home
+  mode: restart
+  sequence:
+  - parallel:
+    - service: script.hot_tub_turn_on
+    - service: climate.set_preset_mode
+      data: { preset_mode: none }
+      target: { entity_id: climate.hallway }
+    - service: fan.set_percentage
+      data: { percentage: 25 }
+      target:
+        entity_id: '{{ states.fan | selectattr("entity_id", "search", "room_fan$") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
+
+travel_going_home:
+  alias: Travel - Going Home
+  icon: mdi:home-export-outline
+  mode: restart
+  sequence:
+  - parallel:
+    - service: script.home_travel_arriving
+    - service: script.travel_leaving
+
+travel_leaving:
+  alias: Travel - Leaving
+  icon: mdi:home-off
+  mode: restart
+  sequence:
+  - parallel:
+    - service: script.hot_tub_turn_off
+    - service: climate.set_preset_mode
+      data: { preset_mode: eco }
+      target: { entity_id: climate.hallway }
+    - service: climate.turn_off
+      target: { entity_id: climate.sunroom_air }
+    - service: fan.turn_off
+      target:
+        entity_id: '{{ states.fan | selectattr("state", "eq", "on") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
+    - service: light.turn_off
+      target:
+        entity_id: '{{ states.light | selectattr("state", "eq", "on") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
+    - service: remote.turn_off
+      target:
+        entity_id: '{{ states.remote | selectattr("state", "eq", "on") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'

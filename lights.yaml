@@ -1,0 +1,13 @@
+- platform: group
+  name: Deck Lights
+  unique_id: deck_lights
+  entities:
+  - light.north_deck_lights
+  - light.south_deck_lights
+- platform: group
+  name: Living Room Lamps
+  unique_id: living_room_lamps
+  entities:
+  - light.living_room_lamp_a
+  - light.living_room_lamp_b
+  - light.living_room_lamp_c

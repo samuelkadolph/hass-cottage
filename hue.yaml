@@ -1,0 +1,20 @@
+host_ip: 10.5.16.60
+advertise_ip: 10.5.16.60
+advertise_port: 8300
+
+expose_by_default: false
+
+entities:
+  fan.living_room_fan:
+    hidden: false
+
+  light.deck_lights:
+    hidden: false
+  light.kitchen_lights:
+    hidden: false
+  light.living_room_lamps:
+    hidden: false
+  light.living_room_lights:
+    hidden: false
+  light.sunroom_lights:
+    hidden: false

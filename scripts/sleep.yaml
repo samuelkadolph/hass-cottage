@@ -1,0 +1,58 @@
+sleep_bedtime:
+  alias: Sleep - Bedtime
+  icon: mdi:bed-king
+  mode: restart
+  sequence:
+  - parallel:
+    - service: fan.turn_off
+      target:
+        entity_id: '{{ states.fan | selectattr("state", "eq", "on") | rejectattr("entity_id", "search", "bedroom|sunroom") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
+    - service: light.turn_off
+      target:
+        entity_id: '{{ states.light | selectattr("state", "eq", "on") | rejectattr("entity_id", "search", "bedroom|sunroom") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
+    - service: remote.turn_off
+      target:
+        entity_id: '{{ states.remote | selectattr("state", "eq", "on") | rejectattr("entity_id", "search", "bedroom|sunroom") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
+    - service: climate.set_fan_mode
+      data: { fan_mode: 'on' }
+      target: { entity_id: climate.hallway }
+    - service: fan.set_percentage
+      data: { percentage: 75 }
+      target: { entity_id: fan.master_bedroom_fan }
+    - if:
+      - '{{ not is_state("person.sasha_keller", "cottage") }}'
+      then:
+      - service: light.turn_on
+        data: { brightness_pct: 1 }
+        target: { entity_id: light.master_bedroom_lights }
+
+sleep_good_morning:
+  alias: Sleep - Good Morning
+  icon: mdi:white-balance-sunny
+  mode: restart
+  sequence:
+  - parallel:
+    - service: climate.set_fan_mode
+      data: { fan_mode: 'off' }
+      target: { entity_id: climate.hallway }
+    - service: light.turn_on
+      data: { brightness_pct: 100 }
+      target: { entity_id: light.master_bedroom_lights }
+
+sleep_good_night:
+  alias: Sleep - Good Night
+  icon: mdi:sleep
+  mode: restart
+  sequence:
+  - parallel:
+    - service: light.turn_off
+      target: { entity_id: light.master_bedroom_lights }
+
+sleep_preheat_bed:
+  alias: Sleep - Preheat Bed
+  icon: mdi:radiator
+  mode: single
+  sequence:
+  - service: select.select_option
+    data: { option: '{{ states("input_number.sleep_bed_preheat_level") | int }}' }
+    target: { entity_id: select.side_b_heat_level }

@@ -1,0 +1,10 @@
+hot_tub_heat:
+  icon: mdi:thermometer-auto
+  name: Hot Tub - Automate Heat
+
+sleep_bed_preheat:
+  icon: mdi:radiator
+  name: Sleep - Preheat Bed
+sleep_temperature_down:
+  icon: mdi:snowflake-thermometer
+  name: Sleep - Turn Temperature Down
