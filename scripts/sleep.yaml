@@ -20,7 +20,31 @@ sleep_bedtime:
       data: { percentage: 75 }
       target: { entity_id: fan.master_bedroom_fan }
     - if:
-      - '{{ not is_state("person.sasha_keller", "cottage") }}'
+      - '{{ is_state("person.samuel_kadolph", "Cottage") }}'
+      - '{{ is_state("input_boolean.sleep_temperature_down", "on") }}'
+      then:
+      - choose:
+        - conditions:
+          - '{{ is_state("climate.hallway", "cool") }}'
+          sequence:
+          - service: climate.set_temperature
+            target: { entity_id: climate.hallway }
+            data: { temperature: '{{ state_attr("climate.hallway", "temperature") - states("input_number.sleep_temperature_decrement") | int }}' }
+        - conditions:
+          - '{{ is_state("climate.hallway", "heat_cool") }}'
+          sequence:
+          - service: climate.set_temperature
+            target: { entity_id: climate.hallway }
+            data:
+              target_temp_high: '{{ state_attr("climate.hallway", "target_temp_high") - states("input_number.sleep_temperature_decrement") | int }}'
+              target_temp_low: '{{ state_attr("climate.hallway", "target_temp_low") }}'
+    - if:
+      - '{{ is_state("person.sasha_keller", "Cottage") }}'
+      - '{{ is_state("input_boolean.sleep_bed_preheat", "on") }}'
+      then:
+      - service: script.sleep_preheat_bed
+    - if:
+      - '{{ not is_state("person.sasha_keller", "Cottage") }}'
       then:
       - service: light.turn_on
         data: { brightness_pct: 1 }
