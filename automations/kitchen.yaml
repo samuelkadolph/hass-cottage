@@ -1,0 +1,27 @@
+- id: kitchen_microwave_vent
+  alias: Kitchen - Microwave Vent
+  mode: restart
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.stove
+    - sensor.stove_oven_upper_state
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - '{{ trigger.to_state.state != "off" }}'
+      - '{{ is_state("fan.microwave_fan", "off") }}'
+      sequence:
+      - service: fan.set_percentage
+        data: { percentage: '{{ is_state("sensor.stove", "off") and 25 or 75 }}' }
+        target: { entity_id: fan.microwave_fan }
+    - conditions:
+      - '{{ trigger.to_state.state == "off" }}'
+      - '{{ not is_state("fan.microwave_fan", "off") }}'
+      - '{{ is_state("sensor.stove", "off") }}'
+      - '{{ is_state("sensor.stove_oven_upper_state", "off") }}'
+      sequence:
+      - delay: { seconds: 10 }
+      - service: fan.turn_off
+        target: { entity_id: fan.microwave_fan }

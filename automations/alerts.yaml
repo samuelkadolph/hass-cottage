@@ -1,0 +1,51 @@
+- id: alert_bathroom_sink_leak
+  alias: Alert - Bathroom Sink Leak
+  use_blueprint:
+    path: samuelkadolph/water_leak_alerts.yaml
+    input:
+      area: Bathroom Sink
+      leak_sensors:
+      - binary_sensor.bathroom_sink_leak_sensor_water_leak_detected
+- id: alert_kitchen_sink_leak
+  alias: Alert - Kitchen Sink Leak
+  use_blueprint:
+    path: samuelkadolph/water_leak_alerts.yaml
+    input:
+      area: Kitchen Sink
+      leak_sensors: binary_sensor.kitchen_sink_leak_sensor_water_leak_detected
+- id: alert_water_heater_leak
+  alias: Alert - Water Heater Leak
+  use_blueprint:
+    path: samuelkadolph/water_leak_alerts.yaml
+    input:
+      area: Water Heater
+      leak_sensors: binary_sensor.water_heater_leak_sensor_water_leak_detected
+
+- id: alert_freezer_door_ajar
+  alias: Alert - Freezer Door Ajar
+  use_blueprint:
+    path: samuelkadolph/door_ajar_alerts.yaml
+    input:
+      door: Freezer
+      door_sensors: binary_sensor.freezer_door_sensor_window_door_is_open_2
+- id: alert_fridge_door_ajar
+  alias: Alert - Fridge Door Ajar
+  use_blueprint:
+    path: samuelkadolph/door_ajar_alerts.yaml
+    input:
+      door: Fridge
+      door_sensors: binary_sensor.fridge_door_open
+
+- id: alert_cottage_ipad_battery_low
+  alias: Alert - cottage-ipad Battery Low
+  mode: single
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.cottage_ipad_battery_level
+      below: 30
+  action:
+    - service: notify.notify
+      data:
+        message: You should charge the Cottage iPad
+        title: Cottage iPad is low
+      alias: Send notification
