@@ -79,4 +79,4 @@ sleep_preheat_bed:
   sequence:
   - service: select.select_option
     data: { option: '{{ states("input_number.sleep_bed_preheat_level") | int }}' }
-    target: { entity_id: select.side_b_heat_level }
+    target: { entity_id: select.master_bed_side_b_heat_level }
