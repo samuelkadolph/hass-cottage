@@ -5,11 +5,11 @@ hot_tub_turn_off:
   sequence:
   - if:
     - '{{ is_state("input_boolean.hot_tub_heat", "on") }}'
-    - '{{ state_attr("climate.hot_tub_climate", "temperature") > states("input_number.hot_tub_away_temperature") | float }}'
+    - '{{ state_attr("climate.hot_tub", "temperature") > states("input_number.hot_tub_away_temperature") | float }}'
     then:
     - service: climate.set_temperature
       data: { temperature: '{{ states("input_number.hot_tub_away_temperature") }}' }
-      target: { entity_id: climate.hot_tub_climate }
+      target: { entity_id: climate.hot_tub }
 
 hot_tub_turn_on:
   alias: Hot Tub - Turn On
@@ -18,8 +18,8 @@ hot_tub_turn_on:
   sequence:
   - if:
     - '{{ is_state("input_boolean.hot_tub_heat", "on") }}'
-    - '{{ state_attr("climate.hot_tub_climate", "temperature") < states("input_number.hot_tub_present_temperature") | float }}'
+    - '{{ state_attr("climate.hot_tub", "temperature") < states("input_number.hot_tub_present_temperature") | float }}'
     then:
     - service: climate.set_temperature
       data: { temperature: '{{ states("input_number.hot_tub_present_temperature") }}' }
-      target: { entity_id: climate.hot_tub_climate }
+      target: { entity_id: climate.hot_tub }
