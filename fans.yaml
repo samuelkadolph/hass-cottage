@@ -1,0 +1,6 @@
+- platform: group
+  name: Window Fans
+  unique_id: window_fans
+  entities:
+  - fan.left_window_fan
+  - fan.right_window_fan

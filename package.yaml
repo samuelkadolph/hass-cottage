@@ -1,5 +1,6 @@
 automation: !include_dir_merge_list automations
 emulated_hue: !include hue.yaml
+fan: !include fans.yaml
 input_boolean: !include input_boolean.yaml
 input_number: !include input_number.yaml
 light: !include lights.yaml
