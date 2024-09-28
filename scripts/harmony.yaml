@@ -1,0 +1,56 @@
+harmony_living_room_off:
+  alias: Harmony - Living Room Off
+  icon: mdi:remote-tv
+  mode: restart
+  sequence:
+  - action: remote.turn_off
+    target: { entity_id: remote.living_room }
+harmony_living_room_watch_shield:
+  alias: Harmony - Living Room Watch Shield
+  icon: mdi:remote-tv
+  mode: restart
+  sequence:
+  - action: remote.turn_on
+    target: { entity_id: remote.living_room }
+    data: { activity: Watch Shield }
+harmony_living_room_watch_tv:
+  alias: Harmony - Living Room Watch TV
+  icon: mdi:remote-tv
+  mode: restart
+  sequence:
+  - action: remote.turn_on
+    target: { entity_id: remote.living_room }
+    data: { activity: Watch TV }
+
+harmony_sunroom_off:
+  alias: Harmony - Sunroom Off
+  icon: mdi:remote-tv
+  mode: restart
+  sequence:
+  - action: remote.turn_off
+    target: { entity_id: remote.sunroom }
+harmony_sunroom_watch_shield:
+  alias: Harmony - Sunroom Watch Shield
+  icon: mdi:remote-tv
+  mode: restart
+  sequence:
+  - action: remote.turn_on
+    target: { entity_id: remote.sunroom }
+    data: { activity: Watch Shield }
+harmony_sunroom_watch_tv:
+  alias: Harmony - Sunroom Watch TV
+  icon: mdi:remote-tv
+  mode: restart
+  sequence:
+  - action: remote.turn_on
+    target: { entity_id: remote.sunroom }
+    data: { activity: Watch TV }
+
+harmony_sync_all:
+  alias: Harmony - Sync All
+  icon: mdi:remote
+  mode: restart
+  sequence:
+  - service: harmony.sync
+    target:
+      entity_id: '{{ states.remote | map(attribute="entity_id") | list }}'
