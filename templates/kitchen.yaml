@@ -1,0 +1,18 @@
+- sensor:
+  - name: Stove Oven upper current temperature fahrenheit
+    unique_id: stove_oven_upper_current_temperature_f
+    state: >
+      {% if states("sensor.stove_oven_upper_current_temperature") == "unknown" -%}
+        Off
+      {% else -%}
+        {{ int(int(states("sensor.stove_oven_upper_current_temperature")) * 1.8 + 32) }} °F
+      {% endif -%}
+- sensor:
+  - name: Stove Oven upper target temperature fahrenheit
+    unique_id: stove_oven_upper_target_temperature_f
+    state: >
+      {% if states("sensor.stove_oven_upper_target_temperature") == "unknown" -%}
+        Off
+      {% else -%}
+        {{ int(int(states("sensor.stove_oven_upper_target_temperature")) * 1.8 + 32) }} °F
+      {% endif -%}
