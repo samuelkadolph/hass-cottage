@@ -11,6 +11,9 @@ hot_tub_run_pump_2:
 sleep_bed_preheat:
   icon: mdi:radiator
   name: Sleep - Preheat Bed
+sleep_run_hvac_fan:
+  icon: mdi:fan
+  name: Sleep - Run HVAC Fan
 sleep_temperature_down:
   icon: mdi:snowflake-thermometer
   name: Sleep - Turn Temperature Down

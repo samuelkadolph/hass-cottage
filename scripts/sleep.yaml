@@ -13,9 +13,12 @@ sleep_bedtime:
     - service: remote.turn_off
       target:
         entity_id: '{{ states.remote | selectattr("state", "eq", "on") | rejectattr("entity_id", "search", "bedroom|sunroom") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
-    - service: climate.set_fan_mode
-      data: { fan_mode: 'on' }
-      target: { entity_id: climate.hallway }
+    - if:
+      - '{{ is_state("input_boolean.sleep_run_hvac_fan", "on") }}'
+      then:
+      - service: climate.set_fan_mode
+        data: { fan_mode: 'on' }
+        target: { entity_id: climate.hallway }
     - service: fan.set_percentage
       data: { percentage: 75 }
       target: { entity_id: fan.master_bedroom_fan }
