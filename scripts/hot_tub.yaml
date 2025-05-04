@@ -1,7 +1,7 @@
 hot_tub_turn_off:
   alias: Hot Tub - Turn Off
   icon: mdi:thermometer-chevron-down
-  mode: restart
+  mode: single
   sequence:
   - if:
     - '{{ is_state("input_boolean.hot_tub_heat", "on") }}'
@@ -14,7 +14,7 @@ hot_tub_turn_off:
 hot_tub_turn_on:
   alias: Hot Tub - Turn On
   icon: mdi:thermometer-chevron-up
-  mode: restart
+  mode: single
   sequence:
   - if:
     - '{{ is_state("input_boolean.hot_tub_heat", "on") }}'
@@ -23,3 +23,33 @@ hot_tub_turn_on:
     - service: climate.set_temperature
       data: { temperature: '{{ states("input_number.hot_tub_present_temperature") }}' }
       target: { entity_id: climate.hot_tub }
+
+hot_tub_shock:
+  alias: Hot Tub - Shock
+  icon: mdi:hot-tub
+  mode: single
+  variables:
+    pump_cycles: 2
+  sequence:
+  - repeat:
+      count: '{{ pump_cycles }}'
+      sequence:
+      - action: fan.turn_on
+        target:
+          entity_id: &pumps
+          - fan.hot_tub_pump_1
+          - fan.hot_tub_pump_2
+      - repeat:
+          sequence:
+          - wait_for_trigger:
+            - trigger: state
+              entity_id: *pumps
+              to: "off"
+          until:
+          - condition: state
+            entity_id: *pumps
+            state: "off"
+  - action: notify.notify
+    data:
+      message: Shocking complete!
+      title: Hot Tub
