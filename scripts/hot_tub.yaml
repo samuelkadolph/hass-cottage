@@ -1,38 +1,10 @@
-hot_tub_turn_off:
-  alias: Hot Tub - Turn Off
-  icon: mdi:thermometer-chevron-down
-  mode: single
-  sequence:
-  - if:
-    - '{{ is_state("input_boolean.hot_tub_heat", "on") }}'
-    - '{{ state_attr("climate.hot_tub", "temperature") > states("input_number.hot_tub_away_temperature") | float }}'
-    then:
-    - service: climate.set_temperature
-      data: { temperature: '{{ states("input_number.hot_tub_away_temperature") }}' }
-      target: { entity_id: climate.hot_tub }
-
-hot_tub_turn_on:
-  alias: Hot Tub - Turn On
-  icon: mdi:thermometer-chevron-up
-  mode: single
-  sequence:
-  - if:
-    - '{{ is_state("input_boolean.hot_tub_heat", "on") }}'
-    - '{{ state_attr("climate.hot_tub", "temperature") < states("input_number.hot_tub_present_temperature") | float }}'
-    then:
-    - service: climate.set_temperature
-      data: { temperature: '{{ states("input_number.hot_tub_present_temperature") }}' }
-      target: { entity_id: climate.hot_tub }
-
 hot_tub_shock:
   alias: Hot Tub - Shock
   icon: mdi:hot-tub
   mode: single
-  variables:
-    pump_cycles: 2
   sequence:
   - repeat:
-      count: '{{ pump_cycles }}'
+      count: '{{ states("input_number.hot_tube_shock_pump_cycles") }}'
       sequence:
       - action: fan.turn_on
         target:
@@ -53,3 +25,29 @@ hot_tub_shock:
     data:
       message: Shocking complete!
       title: Hot Tub
+
+hot_tub_turn_off:
+  alias: Hot Tub - Turn Off
+  icon: mdi:thermometer-chevron-down
+  mode: single
+  sequence:
+  - if:
+    - '{{ is_state("input_boolean.hot_tub_heat", "on") }}'
+    - '{{ state_attr("climate.hot_tub", "temperature") > float(states("input_number.hot_tub_away_temperature")) }}'
+    then:
+    - service: climate.set_temperature
+      data: { temperature: '{{ states("input_number.hot_tub_away_temperature") }}' }
+      target: { entity_id: climate.hot_tub }
+
+hot_tub_turn_on:
+  alias: Hot Tub - Turn On
+  icon: mdi:thermometer-chevron-up
+  mode: single
+  sequence:
+  - if:
+    - '{{ is_state("input_boolean.hot_tub_heat", "on") }}'
+    - '{{ state_attr("climate.hot_tub", "temperature") < float(states("input_number.hot_tub_present_temperature")) }}'
+    then:
+    - service: climate.set_temperature
+      data: { temperature: '{{ states("input_number.hot_tub_present_temperature") }}' }
+      target: { entity_id: climate.hot_tub }

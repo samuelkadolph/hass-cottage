@@ -1,16 +1,25 @@
 hot_tub_away_temperature:
   <<: &hot_tub_temperature
-    max: 40
+    max: 40.0
     min: 26.5
     mode: slider
     step: 0.5
     unit_of_measurement: °C
   icon: mdi:thermometer-chevron-down
   name: Hot Tub - Away Temperature
+
 hot_tub_present_temperature:
   <<: *hot_tub_temperature
   icon: mdi:thermometer-chevron-up
   name: Hot Tub - Present Temperature
+
+hot_tube_shock_pump_cycles:
+  icon: mdi:pump
+  name: Hot Tub - Shock Pump Cycles
+  max: 4
+  min: 1
+  mode: slider
+  step: 1
 
 sleep_bed_preheat_level:
   icon: mdi:radiator
@@ -19,6 +28,7 @@ sleep_bed_preheat_level:
   mode: slider
   name: Sleep - Bed Preheat Level
   step: 1
+
 sleep_temperature_decrement:
   icon: mdi:snowflake-thermometer
   max: 3.0
