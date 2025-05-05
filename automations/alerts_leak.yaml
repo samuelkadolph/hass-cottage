@@ -1,0 +1,23 @@
+- id: alert_leak_bathroom_sink_leak
+  alias: Alert (Leak) - Bathroom Sink Leak
+  use_blueprint:
+    path: samuelkadolph/water_leak_alerts.yaml
+    input:
+      area: Bathroom Sink
+      leak_sensors: binary_sensor.bathroom_sink_leak_sensor_water_leak_detected
+
+- id: alert_leak_kitchen_sink_leak
+  alias: Alert (Leak) - Kitchen Sink Leak
+  use_blueprint:
+    path: samuelkadolph/water_leak_alerts.yaml
+    input:
+      area: Kitchen Sink
+      leak_sensors: binary_sensor.kitchen_sink_leak_sensor_water_leak_detected
+
+- id: alert_leak_water_heater_leak
+  alias: Alert (Leak) - Water Heater Leak
+  use_blueprint:
+    path: samuelkadolph/water_leak_alerts.yaml
+    input:
+      area: Water Heater
+      leak_sensors: binary_sensor.water_heater_leak_sensor_water_leak_detected
