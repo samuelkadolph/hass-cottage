@@ -32,14 +32,14 @@ sleep_bedtime:
           sequence:
           - service: climate.set_temperature
             target: { entity_id: climate.hallway }
-            data: { temperature: '{{ state_attr("climate.hallway", "temperature") - states("input_number.sleep_temperature_decrement") | int }}' }
+            data: { temperature: '{{ state_attr("climate.hallway", "temperature") - int(states("input_number.sleep_temperature_decrement")) }}' }
         - conditions:
           - '{{ is_state("climate.hallway", "heat_cool") }}'
           sequence:
           - service: climate.set_temperature
             target: { entity_id: climate.hallway }
             data:
-              target_temp_high: '{{ state_attr("climate.hallway", "target_temp_high") - states("input_number.sleep_temperature_decrement") | int }}'
+              target_temp_high: '{{ state_attr("climate.hallway", "target_temp_high") - int(states("input_number.sleep_temperature_decrement")) }}'
               target_temp_low: '{{ state_attr("climate.hallway", "target_temp_low") }}'
     - if:
       - '{{ is_state("person.sasha_keller", "Cottage") }}'
@@ -81,5 +81,5 @@ sleep_preheat_bed:
   mode: single
   sequence:
   - service: select.select_option
-    data: { option: '{{ states("input_number.sleep_bed_preheat_level") | int }}' }
+    data: { option: '{{ int(states("input_number.sleep_bed_preheat_level")) }}' }
     target: { entity_id: select.master_bed_side_b_heat_level }

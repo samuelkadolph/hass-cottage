@@ -4,6 +4,7 @@
   entities:
   - light.north_deck_lights
   - light.south_deck_lights
+
 - platform: group
   name: Living Room Lamps
   unique_id: living_room_lamps
