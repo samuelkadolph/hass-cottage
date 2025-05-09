@@ -1,0 +1,9 @@
+hot_tub_heat:
+  icon: mdi:thermometer-auto
+  name: Hot Tub - Automate Heat
+hot_tub_run_pump_1:
+  icon: mdi:pump
+  name: Hot Tub - Run Pump 1
+hot_tub_run_pump_2:
+  icon: mdi:pump
+  name: Hot Tub - Run Pump 2

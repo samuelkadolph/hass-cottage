@@ -1,0 +1,16 @@
+sleep_bed_preheat_level:
+  icon: mdi:radiator
+  max: 10
+  min: 1
+  mode: slider
+  name: Sleep - Bed Preheat Level
+  step: 1
+
+sleep_temperature_decrement:
+  icon: mdi:snowflake-thermometer
+  max: 3.0
+  min: 0.5
+  mode: slider
+  name: Sleep - Temperature Decrement
+  step: 0.5
+  unit_of_measurement: °C
