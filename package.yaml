@@ -1,8 +1,8 @@
 automation: !include_dir_merge_list automations
 emulated_hue: !include hue.yaml
 fan: !include fans.yaml
-input_boolean: !include_dir_merge_named input_boolean.yaml
-input_number: !include_dir_merge_named input_number.yaml
+input_boolean: !include_dir_merge_named input_boolean
+input_number: !include_dir_merge_named input_number
 light: !include lights.yaml
 script: !include_dir_merge_named scripts
 template: !include_dir_merge_list templates
