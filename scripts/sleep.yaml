@@ -42,8 +42,9 @@ sleep_bedtime:
               target_temp_high: '{{ state_attr("climate.hallway", "target_temp_high") - int(states("input_number.sleep_temperature_decrement")) }}'
               target_temp_low: '{{ state_attr("climate.hallway", "target_temp_low") }}'
     - if:
-      - '{{ is_state("person.sasha_keller", "Cottage") }}'
       - '{{ is_state("input_boolean.sleep_bed_preheat", "on") }}'
+      - '{{ is_state("person.sasha_keller", "Cottage") }}'
+      - '{{ is_state("switch.master_bed_side_b_power", "off") }}'
       then:
       - service: script.sleep_preheat_bed
     - if:

@@ -4,7 +4,7 @@
     path: samuelkadolph/door_ajar_alerts.yaml
     input:
       door: Freezer
-      door_sensors: binary_sensor.freezer_door_sensor_window_door_is_open
+      binary_sensors: binary_sensor.freezer_door_sensor_window_door_is_open
 
 - id: alert_door_fridge_door_ajar
   alias: Alert (Door) - Fridge Door Ajar
@@ -12,4 +12,4 @@
     path: samuelkadolph/door_ajar_alerts.yaml
     input:
       door: Fridge
-      door_sensors: binary_sensor.fridge_door_open
+      binary_sensors: binary_sensor.fridge_door_open
