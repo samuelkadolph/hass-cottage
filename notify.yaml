@@ -1,0 +1,6 @@
+- platform: group
+  unique_id: default
+  name: Default
+  services:
+  - action: mobile_app_sak_iphone
+  # - action: mobile_app_sashas_iphone_17

@@ -4,5 +4,6 @@ fan: !include fans.yaml
 input_boolean: !include_dir_merge_named input_boolean
 input_number: !include_dir_merge_named input_number
 light: !include lights.yaml
+notify: !include notify.yaml
 script: !include_dir_merge_named scripts
 template: !include_dir_merge_list templates
