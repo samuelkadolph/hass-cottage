@@ -2,11 +2,11 @@
   alias: Alert - cottage-ipad Battery Low
   mode: single
   trigger:
-    - platform: numeric_state
-      entity_id: sensor.cottage_ipad_battery_level
-      below: 30
+  - platform: numeric_state
+    entity_id: sensor.cottage_ipad_battery_level
+    below: 30
   action:
-    - service: notify.notify
-      data:
-        message: You should charge the Cottage iPad
-        title: Cottage iPad is low
+  - service: notify.default
+    data:
+      title: Cottage iPad is low 🪫
+      message: You should charge the Cottage iPad 🔌
