@@ -1,5 +1,5 @@
-host_ip: 10.5.16.60
-advertise_ip: 10.5.16.60
+host_ip: 10.5.16.51
+advertise_ip: 10.5.16.51
 advertise_port: 8300
 
 expose_by_default: false
