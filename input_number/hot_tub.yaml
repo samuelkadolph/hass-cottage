@@ -1,21 +1,21 @@
 hot_tub_away_temperature:
+  name: Hot Tub - Away Temperature
+  icon: mdi:thermometer-chevron-down
   <<: &hot_tub_temperature
     max: 40.0
     min: 26.5
     mode: slider
     step: 0.5
     unit_of_measurement: °C
-  icon: mdi:thermometer-chevron-down
-  name: Hot Tub - Away Temperature
 
 hot_tub_present_temperature:
-  <<: *hot_tub_temperature
-  icon: mdi:thermometer-chevron-up
   name: Hot Tub - Present Temperature
+  icon: mdi:thermometer-chevron-up
+  <<: *hot_tub_temperature
 
 hot_tube_shock_pump_cycles:
-  icon: mdi:pump
   name: Hot Tub - Shock Pump Cycles
+  icon: mdi:pump
   max: 4
   min: 1
   mode: slider

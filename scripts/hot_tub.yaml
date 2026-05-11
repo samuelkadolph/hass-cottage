@@ -16,15 +16,15 @@ hot_tub_shock:
           - wait_for_trigger:
             - trigger: state
               entity_id: *pumps
-              to: "off"
+              to: 'off'
           until:
           - condition: state
             entity_id: *pumps
-            state: "off"
-  - action: notify.notify
+            state: 'off'
+  - action: notify.default
     data:
-      message: Shocking complete!
-      title: Hot Tub
+      title: Hot Tub ♨️
+      message: Shocking complete! ⚡️
 
 hot_tub_turn_off:
   alias: Hot Tub - Turn Off
