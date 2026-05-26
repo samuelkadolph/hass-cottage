@@ -1,4 +1,4 @@
-RSYNC_OPTIONS = %w[--delete --human-readable --keep-dirlinks --recursive --times --verbose --whole-file --exclude=.git --exclude=LICENSE --exclude=Rakefile --exclude=README.md]
+RSYNC_OPTIONS = %w[--delete --human-readable --keep-dirlinks --prune-empty-dirs --recursive --times --verbose --whole-file --include=*/ --include=*.yaml --exclude=.git --exclude=*]
 
 desc "Deploy to all"
 task "deploy:all"
