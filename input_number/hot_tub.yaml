@@ -15,7 +15,7 @@ hot_tub_present_temperature:
 
 hot_tube_shock_pump_cycles:
   name: Hot Tub - Shock Pump Cycles
-  icon: mdi:pump
+  icon: mdi:counter
   max: 4
   min: 1
   mode: slider

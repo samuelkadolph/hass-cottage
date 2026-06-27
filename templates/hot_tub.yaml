@@ -1,0 +1,16 @@
+- switch:
+  - unique_id: hot_tub_shock
+    name: Hot Tub Shock
+    icon: mdi:pump
+    state: '{{ is_state("script.hot_tub_shock", "on") }}'
+    turn_on:
+    - action: script.turn_on
+      target: { entity_id: script.hot_tub_shock }
+    turn_off:
+    - action: script.turn_off
+      target: { entity_id: script.hot_tub_shock }
+    - action: fan.turn_off
+      target:
+        entity_id:
+        - fan.hot_tub_pump_1
+        - fan.hot_tub_pump_2
