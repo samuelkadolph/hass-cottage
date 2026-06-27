@@ -1,3 +1,21 @@
+- light:
+  - unique_id: microwave_light
+    name: Microwave Light
+    state: '{{ not is_state("number.microwave_light", "0") }}'
+    level: '{{ { 0:0, 1:128, 2:255 }[int(states("number.microwave_light"))] }}'
+    turn_on:
+    - action: number.set_value
+      target: { entity_id: number.microwave_light }
+      data: { value: 2 }
+    turn_off:
+    - action: number.set_value
+      target: { entity_id: number.microwave_light }
+      data: { value: 0 }
+    set_level:
+    - action: number.set_value
+      target: { entity_id: number.microwave_light }
+      data: { value: '{% if brightness > 128 %}2{% elif brightness > 0 %}1{% else %}0{% endif %}' }
+
 - sensor:
   - name: Stove Oven upper current temperature fahrenheit
     unique_id: stove_oven_upper_current_temperature_f
