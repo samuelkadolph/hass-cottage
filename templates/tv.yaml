@@ -1,0 +1,26 @@
+- switch:
+  - unique_id: living_room_tv
+    name: Living Room TV
+    icon: '{{ iif(this.state == "on", "mdi:television", "mdi:television-off") }}'
+    state: '{{ not is_state("select.living_room_activities", "power_off") }}'
+    turn_on:
+    - action: select.select_option
+      target: { entity_id: select.living_room_activities }
+      data: { option: Watch Shield }
+    turn_off:
+    - action: select.select_option
+      target: { entity_id: select.living_room_activities }
+      data: { option: power_off }
+
+  - unique_id: sunroom_tv
+    name: Sunroom TV
+    icon: '{{ iif(this.state == "on", "mdi:television", "mdi:television-off") }}'
+    state: '{{ not is_state("select.sunroom_activities", "power_off") }}'
+    turn_on:
+    - action: select.select_option
+      target: { entity_id: select.sunroom_activities }
+      data: { option: Watch Shield }
+    turn_off:
+    - action: select.select_option
+      target: { entity_id: select.sunroom_activities }
+      data: { option: power_off }
