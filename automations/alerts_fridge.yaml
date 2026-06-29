@@ -1,0 +1,47 @@
+- id: alert_fridge_sunroom_freezer_door_ajar
+  alias: Alert (Fridge) - Sunroom Freezer Door Ajar
+  use_blueprint:
+    path: samuelkadolph/door_ajar_alert.yaml
+    input:
+      door: Sunroom Freezer
+      door_sensors: binary_sensor.freezer_door_sensor
+
+- id: alert_fridge_sunroom_freezer_temperature
+  alias: Alert (Fridge) - Sunroom Freezer Temperature
+  use_blueprint:
+    path: samuelkadolph/temperature_alert.yaml
+    input:
+      area: Sunroom Freezer
+      sensors:
+      - sensor.sunroom_freezer_sensor_1_temperature
+      - sensor.sunroom_freezer_sensor_2_temperature
+      upper_range: -18.0
+      lower_range: -32.0
+
+- id: alert_fridge_kitchen_freezer_temperature
+  alias: Alert (Fridge) - Kitchen Freezer Temperature
+  use_blueprint:
+    path: samuelkadolph/temperature_alert.yaml
+    input:
+      area: Kitchen Freezer
+      sensors: sensor.kitchen_freezer_sensor_temperature
+      upper_range: -4.0
+      lower_range: -20.0
+
+- id: alert_fridge_kitchen_fridge_door_ajar
+  alias: Alert (Fridge) - Kitchen Fridge Door Ajar
+  use_blueprint:
+    path: samuelkadolph/door_ajar_alert.yaml
+    input:
+      door: Kitchen Fridge
+      door_sensors: binary_sensor.fridge_door
+
+- id: alert_fridge_kitchen_fridge_temperature
+  alias: Alert (Fridge) - Kitchen Fridge Temperature
+  use_blueprint:
+    path: samuelkadolph/temperature_alert.yaml
+    input:
+      area: Kitchen Fridge
+      sensors: sensor.kitchen_fridge_sensor_temperature
+      upper_range: 9.0
+      lower_range: 1.0
