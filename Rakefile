@@ -14,5 +14,6 @@ task default: "deploy:all"
 end
 
 def deploy(host)
+  puts("Deploying to #{host}...")
   system("rsync", *RSYNC_OPTIONS, Dir.pwd, "#{host}:/homeassistant")
 end

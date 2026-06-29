@@ -8,10 +8,6 @@ entities:
   fan.living_room_fan:
     hidden: false
 
-  light.deck_lights:
-    hidden: false
-  light.kitchen_lights:
-    hidden: false
   light.living_room_lamps:
     hidden: false
   light.living_room_lights:

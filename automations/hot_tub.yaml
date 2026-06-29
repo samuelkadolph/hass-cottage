@@ -7,11 +7,11 @@
     - input_boolean.hot_tub_auto_pump_1
     - input_boolean.hot_tub_auto_pump_2
     to: 'off'
-    id: auto_toggled_off
+    id: auto_turned_off
   - trigger: state
     entity_id: *auto_pumps
     to: 'on'
-    id: auto_toggled_on
+    id: auto_turned_on
   - trigger: state
     entity_id:
     - fan.hot_tub_pump_1
@@ -21,14 +21,14 @@
   actions:
   - choose:
     - conditions:
-      - '{{ trigger.id == "auto_toggled_off" }}'
+      - '{{ trigger.id == "auto_turned_off" }}'
       sequence:
-      - service: fan.turn_off
+      - action: fan.turn_off
         target: { entity_id: '{{ "fan.hot_tub_pump_" + trigger.entity_id[-1] }}' }
     - conditions:
-      - '{{ trigger.id == "auto_toggled_on" }}'
+      - '{{ trigger.id == "auto_turned_on" }}'
       sequence:
-      - service: fan.turn_on
+      - action: fan.turn_on
         target: { entity_id: '{{ "fan.hot_tub_pump_" + trigger.entity_id[-1] }}' }
     - conditions:
       - '{{ trigger.id == "pump_turned_off" }}'
@@ -37,8 +37,8 @@
       - if:
         - '{{ trigger.to_state.last_changed - trigger.from_state.last_changed > timedelta(seconds=899) }}'
         then:
-        - service: fan.turn_on
+        - action: fan.turn_on
           target: { entity_id: '{{ trigger.entity_id }}' }
         else:
-        - service: input_boolean.turn_off
+        - action: input_boolean.turn_off
           target: { entity_id: '{{ "input_boolean.hot_tub_auto_pump_" + trigger.entity_id[-1] }}' }

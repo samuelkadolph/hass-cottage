@@ -4,24 +4,28 @@ sleep_bedtime:
   mode: restart
   sequence:
   - parallel:
-    - service: fan.turn_off
+    - action: homeassistant.turn_off
       target:
-        entity_id: '{{ states.fan | selectattr("state", "eq", "on") | rejectattr("entity_id", "search", "bedroom|sunroom") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
-    - service: light.turn_off
-      target:
-        entity_id: '{{ states.light | selectattr("state", "eq", "on") | rejectattr("entity_id", "search", "bedroom|sunroom") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
-    - service: remote.turn_off
-      target:
-        entity_id: '{{ states.remote | selectattr("state", "eq", "on") | rejectattr("entity_id", "search", "bedroom|sunroom") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
+        entity_id: >-
+          {%- set living_room_ignore = label_entities("Sleep Ignore - Living Room") %}
+          {%- set master_bedroom_ignore = label_entities("Sleep Ignore - Master Bedroom") %}
+          {%- set middle_bedroom_ignore = label_entities("Sleep Ignore - Middle Bedroom") %}
+          {%- set sunroom_ignore = label_entities("Sleep Ignore - Sunroom") %}
+          {%- set on_stuff = states | selectattr("entity_id", "search", "^(fan|light|remote)") | selectattr("state", "eq", "on") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list %}
+          {%- set turn_off = difference(on_stuff, iif(is_state("input_boolean.sleep_living_room_guest", "on"), living_room_ignore, [])) %}
+          {%- set turn_off = difference(turn_off, iif(is_state("input_boolean.sleep_middle_bedroom_guest", "on"), middle_bedroom_ignore, [])) %}
+          {%- set turn_off = difference(turn_off, iif(is_state("input_boolean.sleep_sunroom_guest", "on"), sunroom_ignore, [])) %}
+          {%- set turn_off = difference(turn_off, master_bedroom_ignore) %}
+          {{ turn_off | join(", ") }}
+    - action: fan.set_percentage
+      target: { entity_id: fan.master_bedroom_fan }
+      data: { percentage: 75 }
     - if:
       - '{{ is_state("input_boolean.sleep_run_hvac_fan", "on") }}'
       then:
-      - service: climate.set_fan_mode
-        data: { fan_mode: 'on' }
+      - action: climate.set_fan_mode
         target: { entity_id: climate.hallway }
-    - service: fan.set_percentage
-      data: { percentage: 75 }
-      target: { entity_id: fan.master_bedroom_fan }
+        data: { fan_mode: 'on' }
     - if:
       - '{{ is_state("person.samuel_kadolph", "Cottage") }}'
       - '{{ is_state("input_boolean.sleep_temperature_down", "on") }}'
@@ -30,13 +34,13 @@ sleep_bedtime:
         - conditions:
           - '{{ is_state("climate.hallway", "cool") }}'
           sequence:
-          - service: climate.set_temperature
+          - action: climate.set_temperature
             target: { entity_id: climate.hallway }
             data: { temperature: '{{ state_attr("climate.hallway", "temperature") - int(states("input_number.sleep_temperature_decrement")) }}' }
         - conditions:
           - '{{ is_state("climate.hallway", "heat_cool") }}'
           sequence:
-          - service: climate.set_temperature
+          - action: climate.set_temperature
             target: { entity_id: climate.hallway }
             data:
               target_temp_high: '{{ state_attr("climate.hallway", "target_temp_high") - int(states("input_number.sleep_temperature_decrement")) }}'
@@ -44,15 +48,14 @@ sleep_bedtime:
     - if:
       - '{{ is_state("input_boolean.sleep_bed_preheat", "on") }}'
       - '{{ is_state("person.sasha_keller", "Cottage") }}'
-      - '{{ is_state("switch.master_bed_side_b_power", "off") }}'
       then:
-      - service: script.sleep_preheat_bed
+      - action: script.sleep_preheat_bed
     - if:
       - '{{ not is_state("person.sasha_keller", "Cottage") }}'
       then:
-      - service: light.turn_on
-        data: { brightness_pct: 1 }
+      - action: light.turn_on
         target: { entity_id: light.master_bedroom_lights }
+        data: { brightness_pct: 1 }
 
 sleep_good_morning:
   alias: Sleep - Good Morning
@@ -60,12 +63,12 @@ sleep_good_morning:
   mode: restart
   sequence:
   - parallel:
-    - service: climate.set_fan_mode
-      data: { fan_mode: 'off' }
+    - action: climate.set_fan_mode
       target: { entity_id: climate.hallway }
-    - service: light.turn_on
-      data: { brightness_pct: 100 }
+      data: { fan_mode: 'off' }
+    - action: light.turn_on
       target: { entity_id: light.master_bedroom_lights }
+      data: { brightness_pct: 100 }
 
 sleep_good_night:
   alias: Sleep - Good Night
@@ -73,7 +76,7 @@ sleep_good_night:
   mode: restart
   sequence:
   - parallel:
-    - service: light.turn_off
+    - action: light.turn_off
       target: { entity_id: light.master_bedroom_lights }
 
 sleep_preheat_bed:
@@ -81,6 +84,9 @@ sleep_preheat_bed:
   icon: mdi:radiator
   mode: single
   sequence:
-  - service: select.select_option
-    data: { option: '{{ int(states("input_number.sleep_bed_preheat_level")) }}' }
-    target: { entity_id: select.master_bed_side_b_heat_level }
+  - if:
+    - '{{ is_state("switch.master_bed_switch_b", "off") }}'
+    then:
+    - action: select.select_option
+      target: { entity_id: select.master_bed_level_b }
+      data: { option: '{{ int(states("input_number.sleep_bed_preheat_level")) }}' }

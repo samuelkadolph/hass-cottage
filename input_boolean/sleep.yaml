@@ -1,11 +1,23 @@
 sleep_bed_preheat:
-  icon: mdi:radiator
   name: Sleep - Preheat Bed
+  icon: mdi:radiator
+
+sleep_living_room_guest:
+  name: Sleep - Living Room Guest
+  icon: mdi:bed
+
+sleep_middle_bedroom_guest:
+  name: Sleep - Middle Bedroom Guest
+  icon: mdi:bed
 
 sleep_run_hvac_fan:
-  icon: mdi:fan
   name: Sleep - Run HVAC Fan
+  icon: mdi:fan
+
+sleep_sunroom_guest:
+  name: Sleep - Sunroom Guest
+  icon: mdi:bed
 
 sleep_temperature_down:
-  icon: mdi:snowflake-thermometer
   name: Sleep - Turn Temperature Down
+  icon: mdi:snowflake-thermometer

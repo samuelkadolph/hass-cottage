@@ -1,7 +1,7 @@
 - binary_sensor:
-  - name: "Kitchen Freezer Sensor Battery"
-    unique_id: kitchen_freezer_sensor_battery
+  - unique_id: kitchen_freezer_sensor_battery
     default_entity_id: binary_sensor.kitchen_freezer_sensor_battery
+    name: "Kitchen Freezer Sensor Battery"
     state_topic: "rtl_433/+/devices/Acurite-515/AF/214/battery_ok"
     <<: &battery
       device_class: battery
@@ -10,46 +10,50 @@
       <<: &sensor_base
         expire_after: 600
         force_update: true
-  - name: "Kitchen Fridge Sensor Battery"
-    unique_id: kitchen_fridge_sensor_battery
+
+  - unique_id: kitchen_fridge_sensor_battery
     default_entity_id: binary_sensor.kitchen_fridge_sensor_battery
+    name: "Kitchen Fridge Sensor Battery"
     state_topic: "rtl_433/+/devices/Acurite-515/AR/210/battery_ok"
     <<: *battery
 
-  - name: "Sunroom Freezer Sensor 1 Battery"
-    unique_id: sunroom_freezer_sensor_1_battery
+  - unique_id: sunroom_freezer_sensor_1_battery
     default_entity_id: binary_sensor.sunroom_freezer_sensor_1_battery
+    name: "Sunroom Freezer Sensor 1 Battery"
     state_topic: "rtl_433/+/devices/Acurite-986/1R/42968/battery_ok"
     <<: *battery
-  - name: "Sunroom Freezer Sensor 2 Battery"
-    unique_id: sunroom_freezer_sensor_2_battery
+
+  - unique_id: sunroom_freezer_sensor_2_battery
     default_entity_id: binary_sensor.sunroom_freezer_sensor_2_battery
+    name: "Sunroom Freezer Sensor 2 Battery"
     state_topic: "rtl_433/+/devices/Acurite-986/2F/41935/battery_ok"
     <<: *battery
 
 - sensor:
-  - name: Kitchen Freezer Temperature
-    unique_id: kitchen_freezer_sensor_temperature
+  - unique_id: kitchen_freezer_sensor_temperature
     default_entity_id: sensor.kitchen_freezer_sensor_temperature
+    name: Kitchen Freezer Temperature
     state_topic: "rtl_433/+/devices/Acurite-515/AF/214/temperature_F"
     <<: &temperature_f
       device_class: temperature
       state_class: measurement
       unit_of_measurement: "°F"
       <<: *sensor_base
-  - name: Kitchen Fridge Temperature
-    unique_id: kitchen_fridge_sensor_temperature
+
+  - unique_id: kitchen_fridge_sensor_temperature
     default_entity_id: sensor.kitchen_fridge_sensor_temperature
+    name: Kitchen Fridge Temperature
     state_topic: "rtl_433/+/devices/Acurite-515/AR/210/temperature_F"
     <<: *temperature_f
 
-  - name: Sunroom Freezer Sensor 1 Temperature
-    unique_id: sunroom_freezer_sensor_1_temperature
+  - unique_id: sunroom_freezer_sensor_1_temperature
     default_entity_id: sensor.sunroom_freezer_sensor_1_temperature
+    name: Sunroom Freezer Sensor 1 Temperature
     state_topic: "rtl_433/+/devices/Acurite-986/1R/42968/temperature_F"
     <<: *temperature_f
-  - name: Sunroom Freezer Sensor 2 Temperature
-    unique_id: sunroom_freezer_sensor_2_temperature
+
+  - unique_id: sunroom_freezer_sensor_2_temperature
     default_entity_id: sensor.sunroom_freezer_sensor_2_temperature
+    name: Sunroom Freezer Sensor 2 Temperature
     state_topic: "rtl_433/+/devices/Acurite-986/2F/41935/temperature_F"
     <<: *temperature_f

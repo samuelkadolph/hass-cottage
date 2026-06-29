@@ -4,14 +4,13 @@ travel_arriving:
   mode: restart
   sequence:
   - parallel:
-    - service: script.hot_tub_turn_on
-    - service: climate.set_preset_mode
-      data: { preset_mode: none }
+    - action: script.hot_tub_turn_on
+    - action: climate.set_preset_mode
       target: { entity_id: climate.hallway }
-    - service: fan.set_percentage
+      data: { preset_mode: none }
+    - action: fan.turn_on
+      target: { label_id: arrival_fan }
       data: { percentage: 25 }
-      target:
-        entity_id: '{{ states.fan | selectattr("entity_id", "search", "room_fan$") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
 
 travel_going_home:
   alias: Travel - Going Home
@@ -19,8 +18,8 @@ travel_going_home:
   mode: restart
   sequence:
   - parallel:
-    - service: script.home_travel_arriving
-    - service: script.travel_leaving
+    - action: script.home_travel_arriving
+    - action: script.travel_leaving
 
 travel_leaving:
   alias: Travel - Leaving
@@ -28,18 +27,12 @@ travel_leaving:
   mode: restart
   sequence:
   - parallel:
-    - service: script.hot_tub_turn_off
-    - service: climate.set_preset_mode
-      data: { preset_mode: eco }
+    - action: script.hot_tub_turn_off
+    - action: climate.set_preset_mode
       target: { entity_id: climate.hallway }
-    - service: climate.turn_off
+      data: { preset_mode: eco }
+    - action: climate.turn_off
       target: { entity_id: climate.sunroom_air }
-    - service: fan.turn_off
+    - action: homeassistant.turn_off
       target:
-        entity_id: '{{ states.fan | selectattr("state", "eq", "on") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
-    - service: light.turn_off
-      target:
-        entity_id: '{{ states.light | selectattr("state", "eq", "on") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
-    - service: remote.turn_off
-      target:
-        entity_id: '{{ states.remote | selectattr("state", "eq", "on") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
+        entity_id: '{{ states | selectattr("entity_id", "search", "^(fan|light|remote)") | selectattr("state", "eq", "on") | rejectattr("attributes.entity_id", "defined") | map(attribute="entity_id") | list }}'
