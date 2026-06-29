@@ -1,0 +1,43 @@
+- light:
+  - unique_id: deck_music
+    name: Deck Music
+    icon: '{{ iif(this.state == "on", "mdi:music", "mdi:music-off") }}'
+    state: '{{ not is_state("media_player.deck", "off") and not is_state_attr("media_player.living_room", "sound_mode", "ALL ZONE STEREO") }}'
+    level: '{{ int(state_attr("media_player.deck", "volume_level") | default(0.0, true) * 255) }}'
+    turn_on:
+    - if:
+      - '{{ is_state_attr("media_player.living_room", "sound_mode", "ALL ZONE STEREO") }}'
+      then:
+      - action: media_player.select_sound_mode
+        data: { sound_mode: DTS SURROUND }
+        target: { entity_id: media_player.living_room }
+    - action: media_player.turn_on
+      target: { entity_id: media_player.deck }
+    - action: media_player.select_source
+      target: { entity_id: media_player.deck }
+      data: { source: NET }
+    turn_off:
+    - action: media_player.turn_off
+      target: { entity_id: media_player.deck }
+    set_level:
+    - action: media_player.volume_set
+      target: { entity_id: media_player.deck }
+      data: { volume_level: '{{ brightness / 255 }}' }
+
+  - unique_id: deck_party
+    name: Deck Party
+    icon: '{{ iif(this.state == "on", "mdi:speaker", "mdi:speaker-off") }}'
+    state: '{{ not is_state("media_player.deck", "off") and is_state_attr("media_player.living_room", "sound_mode", "ALL ZONE STEREO") }}'
+    level: '{{ int(state_attr("media_player.deck", "volume_level") | default(0.0, true) * 255) }}'
+    turn_on:
+    - action: media_player.select_sound_mode
+      data: { sound_mode: ALL ZONE STEREO }
+      target: { entity_id: media_player.living_room }
+    turn_off:
+    - action: media_player.select_sound_mode
+      data: { sound_mode: DTS SURROUND }
+      target: { entity_id: media_player.living_room }
+    set_level:
+    - action: media_player.volume_set
+      target: { entity_id: media_player.deck }
+      data: { volume_level: '{{ brightness / 255 }}' }
