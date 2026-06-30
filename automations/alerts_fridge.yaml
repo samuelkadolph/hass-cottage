@@ -26,7 +26,7 @@
       area: Kitchen Freezer
       sensors: sensor.kitchen_freezer_sensor_temperature
       upper_range: -6.0
-      lower_range: -22.0
+      lower_range: -23.0
 
 - id: alert_fridge_kitchen_fridge_door_ajar
   alias: Alert (Fridge) - Kitchen Fridge Door Ajar
