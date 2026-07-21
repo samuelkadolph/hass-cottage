@@ -1,8 +1,9 @@
-- switch:
+- light:
   - unique_id: living_room_tv
     name: Living Room TV
     icon: '{{ iif(this.state == "on", "mdi:television", "mdi:television-off") }}'
     state: '{{ not is_state("select.living_room_activities", "power_off") }}'
+    level: '{{ int(state_attr("media_player.living_room", "volume_level") | default(0.0, true) * 255) }}'
     turn_on:
     - action: select.select_option
       target: { entity_id: select.living_room_activities }
@@ -11,11 +12,35 @@
     - action: select.select_option
       target: { entity_id: select.living_room_activities }
       data: { option: power_off }
+    set_level:
+    - action: media_player.volume_set
+      target: { entity_id: media_player.living_room }
+      data: { volume_level: '{{ brightness / 255 }}' }
+
+  - unique_id: master_bedroom_tv
+    name: Master Bedroom TV
+    icon: '{{ iif(this.state == "on", "mdi:television", "mdi:television-off") }}'
+    state: '{{ not is_state("media_player.master_bedroom_tv_smartthings", "off") }}'
+    level: '{{ int(state_attr("media_player.master_bedroom_tv_smartthings", "volume_level") | default(0.0, true) * 255) }}'
+    turn_on:
+    - action: media_player.turn_on
+      target: { entity_id: media_player.master_bedroom_tv_smartthings }
+    - action: media_player.select_source
+      target: { entity_id: media_player.master_bedroom_tv_smartthings }
+      data: { source: hdmi1 }
+    turn_off:
+    - action: media_player.turn_off
+      target: { entity_id: media_player.master_bedroom_tv_smartthings }
+    set_level:
+    - action: media_player.volume_set
+      target: { entity_id: media_player.master_bedroom_tv_smartthings }
+      data: { volume_level: '{{ brightness / 255 }}' }
 
   - unique_id: sunroom_tv
     name: Sunroom TV
     icon: '{{ iif(this.state == "on", "mdi:television", "mdi:television-off") }}'
     state: '{{ not is_state("select.sunroom_activities", "power_off") }}'
+    level: '{{ int(state_attr("media_player.sunroom_tv", "volume_level") | default(0.0, true) * 255) }}'
     turn_on:
     - action: select.select_option
       target: { entity_id: select.sunroom_activities }
@@ -24,3 +49,7 @@
     - action: select.select_option
       target: { entity_id: select.sunroom_activities }
       data: { option: power_off }
+    set_level:
+    - action: media_player.volume_set
+      target: { entity_id: media_player.sunroom_tv }
+      data: { volume_level: '{{ brightness / 255 }}' }
