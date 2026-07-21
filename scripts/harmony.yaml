@@ -5,4 +5,4 @@ harmony_sync_all:
   sequence:
   - action: harmony.sync
     target:
-      entity_id: '{{ states.remote | map(attribute="entity_id") | list }}'
+      entity_id: '{{ integration_entities("harmony") | select("match", "^remote.") | list }}'
