@@ -10,4 +10,4 @@
   - action: notify.default
     data:
       title: iPad is low 🪫
-      message: You should charge the Cottage iPad 🔌
+      message: Please charge the Cottage iPad 🔌
