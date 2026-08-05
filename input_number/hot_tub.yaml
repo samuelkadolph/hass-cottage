@@ -13,10 +13,10 @@ hot_tub_present_temperature:
   icon: mdi:thermometer-chevron-up
   <<: *hot_tub_temperature
 
-hot_tube_shock_pump_cycles:
-  name: Hot Tub - Shock Pump Cycles
+hot_tub_shock_duration:
+  name: Hot Tub - Shock Duration
   icon: mdi:counter
-  max: 4
-  min: 1
+  max: 60
+  min: 15
   mode: slider
-  step: 1
+  step: 15

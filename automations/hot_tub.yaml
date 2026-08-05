@@ -1,6 +1,6 @@
 - id: hot_tub_automate_pumps
   alias: Hot Tub - Automate Pumps
-  mode: single
+  mode: parallel
   triggers:
   - trigger: state
     entity_id: &auto_pumps

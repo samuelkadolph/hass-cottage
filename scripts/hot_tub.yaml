@@ -4,7 +4,7 @@ hot_tub_shock:
   mode: single
   sequence:
   - repeat:
-      count: '{{ states("input_number.hot_tube_shock_pump_cycles") }}'
+      count: '{{ int(states("input_number.hot_tub_shock_duration")) / 15 }}'
       sequence:
       - action: fan.turn_on
         target:
