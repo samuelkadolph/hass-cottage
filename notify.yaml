@@ -4,4 +4,4 @@
   services:
   - action: mobile_app_cottage_ipad
   - action: mobile_app_sak_iphone
-  # - action: mobile_app_sashas_iphone_17
+  - action: mobile_app_sashas_iphone_15
