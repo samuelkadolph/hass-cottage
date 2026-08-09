@@ -1,9 +1,30 @@
+- binary_sensor:
+  - unique_id: living_room_tv_state
+    name: Living Room TV State
+    icon: '{{ iif(this.state == "on", "mdi:television", "mdi:television-off") }}'
+    state: '{{ this.attributes.activity_raw not in ["power_off", "unavailable"] }}'
+    attributes:
+      activity: '{{ (this.attributes.activity_raw | default("")) | replace("power_off", "Off") }}'
+      activity_raw: '{{ states("select.living_room_activities") }}'
+      volume: '{% if(this.attributes.volume_raw) %}{{ (this.attributes.volume_raw * 100) | round }}{% endif %}'
+      volume_raw: '{{ state_attr("media_player.living_room", "volume_level") }}'
+
+  - unique_id: sunroom_tv_state
+    name: Sunroom TV State
+    icon: '{{ iif(this.state == "on", "mdi:television", "mdi:television-off") }}'
+    state: '{{ this.attributes.activity_raw not in ["power_off", "unavailable"] }}'
+    attributes:
+      activity: '{{ (this.attributes.activity_raw | default("")) | replace("power_off", "Off") }}'
+      activity_raw: '{{ states("select.sunroom_activities") }}'
+      volume: '{% if(this.attributes.volume_raw) %}{{ (this.attributes.volume_raw * 100) | round }}{% endif %}'
+      volume_raw: '{{ state_attr("media_player.sunroom_tv", "volume_level") }}'
+
 - light:
   - unique_id: living_room_tv
     name: Living Room TV
     icon: '{{ iif(this.state == "on", "mdi:television", "mdi:television-off") }}'
-    state: '{{ not is_state("select.living_room_activities", "power_off") }}'
-    level: '{{ int(state_attr("media_player.living_room", "volume_level") | default(0.0, true) * 255) }}'
+    state: '{{ not is_state("select.living_room_activities", ["power_off", "unavailable"]) }}'
+    level: '{{ (state_attr("media_player.living_room", "volume_level") | default(0.0, true) * 255) | round }}'
     turn_on:
     - action: select.select_option
       target: { entity_id: select.living_room_activities }
@@ -20,27 +41,24 @@
   - unique_id: master_bedroom_tv
     name: Master Bedroom TV
     icon: '{{ iif(this.state == "on", "mdi:television", "mdi:television-off") }}'
-    state: '{{ not is_state("media_player.master_bedroom_tv_smartthings", "off") }}'
-    level: '{{ int(state_attr("media_player.master_bedroom_tv_smartthings", "volume_level") | default(0.0, true) * 255) }}'
+    state: '{{ not is_state("media_player.master_bedroom_tv", ["off", "unavailable"]) }}'
+    level: '{{ (state_attr("media_player.master_bedroom_tv", "volume_level") | default(0.0, true) * 255) | round }}'
     turn_on:
     - action: media_player.turn_on
-      target: { entity_id: media_player.master_bedroom_tv_smartthings }
-    - action: media_player.select_source
-      target: { entity_id: media_player.master_bedroom_tv_smartthings }
-      data: { source: hdmi1 }
+      target: { entity_id: media_player.master_bedroom_tv }
     turn_off:
     - action: media_player.turn_off
-      target: { entity_id: media_player.master_bedroom_tv_smartthings }
+      target: { entity_id: media_player.master_bedroom_tv }
     set_level:
     - action: media_player.volume_set
-      target: { entity_id: media_player.master_bedroom_tv_smartthings }
+      target: { entity_id: media_player.master_bedroom_tv }
       data: { volume_level: '{{ brightness / 255 }}' }
 
   - unique_id: sunroom_tv
     name: Sunroom TV
     icon: '{{ iif(this.state == "on", "mdi:television", "mdi:television-off") }}'
-    state: '{{ not is_state("select.sunroom_activities", "power_off") }}'
-    level: '{{ int(state_attr("media_player.sunroom_tv", "volume_level") | default(0.0, true) * 255) }}'
+    state: '{{ not is_state("select.sunroom_activities", ["power_off", "unavailable"]) }}'
+    level: '{{ (state_attr("media_player.sunroom_tv", "volume_level") | default(0.0, true) * 255) | round }}'
     turn_on:
     - action: select.select_option
       target: { entity_id: select.sunroom_activities }
