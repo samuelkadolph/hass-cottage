@@ -2,7 +2,7 @@
   - unique_id: deck_music
     name: Deck Music
     icon: '{{ iif(this.state == "on", "mdi:music", "mdi:music-off") }}'
-    state: '{{ not is_state("media_player.deck", "off") and not is_state_attr("media_player.living_room", "sound_mode", "ALL ZONE STEREO") }}'
+    state: '{{ not is_state("media_player.deck", ["off", "unavailable"]) and not is_state_attr("media_player.living_room", "sound_mode", "ALL ZONE STEREO") }}'
     level: '{{ int(state_attr("media_player.deck", "volume_level") | default(0.0, true) * 255) }}'
     turn_on:
     - if:
@@ -27,7 +27,7 @@
   - unique_id: deck_party
     name: Deck Party
     icon: '{{ iif(this.state == "on", "mdi:speaker", "mdi:speaker-off") }}'
-    state: '{{ not is_state("media_player.deck", "off") and is_state_attr("media_player.living_room", "sound_mode", "ALL ZONE STEREO") }}'
+    state: '{{ not is_state("media_player.deck", ["off", "unavailable"]) and is_state_attr("media_player.living_room", "sound_mode", "ALL ZONE STEREO") }}'
     level: '{{ int(state_attr("media_player.deck", "volume_level") | default(0.0, true) * 255) }}'
     turn_on:
     - action: media_player.select_sound_mode
