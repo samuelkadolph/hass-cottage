@@ -6,8 +6,20 @@
     attributes:
       activity: '{{ (this.attributes.activity_raw | default("")) | replace("power_off", "Off") }}'
       activity_raw: '{{ states("select.living_room_activities") }}'
-      volume: '{% if(this.attributes.volume_raw) %}{{ (this.attributes.volume_raw * 100) | round }}{% endif %}'
+      volume: '{% if(this.attributes.volume_raw is not none) %}{{ (this.attributes.volume_raw * 100) | round }}{% endif %}'
       volume_raw: '{{ state_attr("media_player.living_room", "volume_level") }}'
+      volume_min: 1
+      volume_max: 98
+
+  - unique_id: master_bedroom_tv_state
+    name: Master Bedroom TV State
+    icon: '{{ iif(this.state == "on", "mdi:television", "mdi:television-off") }}'
+    state: '{{ not is_state("media_player.master_bedroom_tv", ["off", "unavailable"]) }}'
+    attributes:
+      volume: '{% if(this.attributes.volume_raw) %}{{ (this.attributes.volume_raw * 100) | round }}{% endif %}'
+      volume_raw: '{{ state_attr("media_player.master_bedroom_tv", "volume_level") }}'
+      volume_min: 1
+      volume_max: 100
 
   - unique_id: sunroom_tv_state
     name: Sunroom TV State
@@ -18,6 +30,8 @@
       activity_raw: '{{ states("select.sunroom_activities") }}'
       volume: '{% if(this.attributes.volume_raw) %}{{ (this.attributes.volume_raw * 100) | round }}{% endif %}'
       volume_raw: '{{ state_attr("media_player.sunroom_tv", "volume_level") }}'
+      volume_min: 1
+      volume_max: 100
 
 - light:
   - unique_id: living_room_tv
